@@ -1,0 +1,89 @@
+---
+title: "Week 4 Project - Shiny"
+author: "Steve Z"
+date: "November 5, 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Shiny ProjectApplication and Reproducible Pitch
+
+This project is to demonstrate the creation of Shiny App and provide a presentation to overview the app
+
+## Dataset
+
+```{r cars, echo = TRUE}
+head(mtcars)
+```
+
+## UI Code
+
+```{r echo=TRUE, warning=FALSE, message=FALSE,eval=FALSE}
+library(shiny)
+
+# Define UI for application that draws a histogram
+shinyUI(fluidPage(
+
+  # Application title
+  titlePanel("MPG by Number of Carbs"),
+
+  # Sidebar with a slider input for number of bins
+  sidebarLayout(
+    sidebarPanel(
+       sliderInput("carbs",
+                   "Number of carbs:",
+                   min = 1,
+                   max = 8,
+                   value = 5)
+    ),
+
+    # Show a plot of the generated distribution
+    mainPanel(
+       plotOutput("distPlot")
+    )
+  )
+))
+```
+## Server Code
+
+```{r echo=TRUE, warning=FALSE, message=FALSE,eval=FALSE}
+
+library(shiny)
+
+# Define server logic required to draw a histogram
+shinyServer(function(input, output) {
+
+  output$distPlot <- renderPlot({
+
+    # generate carbs based on input$carbs from ui.R
+    x    <- mtcars$mpg
+    z <- mtcars$carb
+
+    carbs <- seq(min(z), max(z), length.out = input$carbs + 1)
+
+    # draw the histogram with the specified number of carbs
+    hist(z, breaks = carbs, col = 'darkgray', border = 'white')
+
+  })
+
+})
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
